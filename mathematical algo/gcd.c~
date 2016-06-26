@@ -1,0 +1,20 @@
+/*
+	AUTHOR	:	VISHAL KUMAR GOURAV
+	PROBLEM	:	FIND GCD OF TWO NUMBERS a AND b
+*/
+#include<stdio.h>
+int gcd(int a,int b){
+	if(a==0)
+		return b;
+	if(a>b)
+		return gcd(b,a);
+	return gcd(b%a,a);
+}
+int main(){
+	int a,b;
+	a=15;
+	b=3;
+	printf("\nGcd(%d,%d)=%d",a,b,gcd(a,b));
+	printf("\n");
+	return 0;
+}

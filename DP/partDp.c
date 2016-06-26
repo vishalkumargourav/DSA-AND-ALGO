@@ -1,0 +1,48 @@
+/*
+	AUTHOR	:	VISHAL KUMAR GOURAV
+	PROBLEM	:	PARTITION PROBLEM (DP)
+*/
+#include<stdio.h>
+#include<stdbool.h> 
+#include<stdlib.h>
+bool isPartition(int *a,int n,int sum){
+	if(n==0 && sum>0)
+		return false;
+	bool **mat=(bool**)malloc(sizeof(bool*)*(n+1));
+	int i,j;
+	for(i=0;i<=n;i++)
+		mat[i]=(bool*)malloc(sizeof(bool)*(sum+1));
+	for(i=0;i<=n;i++)
+		mat[i][0]=true;
+	for(j=0;j<=sum;j++)
+		mat[0][j]=false;
+	for(i=1;i<=n;i++){
+		for(j=1;j<=sum;j++){
+			if(a[i-1]<=j)
+				mat[i][j]=mat[i-1][j-a[i-1]]||mat[i-1][j];
+			else
+				mat[i][j]=mat[i-1][j];
+		}
+	}
+	return mat[n][sum];
+}
+int cmp(void *a,void *b){
+	return *(int*)a-*(int*)b;
+}
+int main(){
+	int a[]={1,5,3},i;
+	int n=sizeof(a)/sizeof(a[0]);
+	int sum=0;
+	
+	for(i=0;i<n;i++)
+		sum+=a[i];
+	if(sum%2==0){
+		if(isPartition(a,n,sum/2))
+			printf("\nYes it is possible");
+		else
+			printf("\nNot possible!!!!");
+	}else
+		printf("\nNot possible!!!!");
+	printf("\n");
+	return 0;
+}

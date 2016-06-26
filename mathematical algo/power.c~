@@ -1,0 +1,23 @@
+/*
+	AUTHOR	:	VISHAL KUMAR GOURAV
+	PROBLEM	:	FIND POWER a^b WITHOUT MULTIPLICATION OPERATION
+*/
+#include<stdio.h>
+int multiply(int a,int b){
+	if(b)
+		return a+multiply(a,b-1);
+	return 0;
+}
+int power(int a,int b){
+	if(b)
+		return multiply(a,power(a,b-1));
+	return 1;
+}
+int main(){
+	int a,b;
+	a=0;
+	b=3;
+	printf("\npower(%d,%d)=%d",a,b,power(a,b));
+	printf("\n");
+	return 0;
+}

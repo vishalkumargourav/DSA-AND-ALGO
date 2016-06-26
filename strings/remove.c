@@ -1,0 +1,30 @@
+/*
+	AUTHOR	:	VISHAL KUMAR GOURAV
+	PROBLEM	:	REMOVE CHARACTERS FROM STRING THAT ARE PRESENT IN SECOND STRING
+*/
+#include<stdio.h>
+#include<stdbool.h>
+int removeDuplicates(char *str1,int l1,char *str2,int l2){
+	bool count[26]={0};
+	int i,j=0;
+	for(i=0;i<l2;i++)
+		count[str2[i]-'a']=true;
+	for(i=0;i<l1;i++){
+		if(!count[str1[i]-'a'])
+			str1[j++]=str1[i];
+	}
+	return j;
+}
+int main(){
+	char str1[]="geeksforgeeks";
+	char str2[]="mask";
+	int n1=sizeof(str1)/sizeof(str1[0]);
+	n1-=1;
+	int n2=sizeof(str2)/sizeof(str2[0]);
+	n2-=1;
+	n1=removeDuplicates(str1,n1,str2,n2);
+	str1[n1]='\0';
+	printf("\nFinal string is:%s",str1);
+	printf("\n");
+	return 0;
+}

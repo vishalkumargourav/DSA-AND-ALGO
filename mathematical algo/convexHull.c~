@@ -1,0 +1,53 @@
+/*
+	AUTHOR	:	VISHAL KUMAR GOURAV
+	PROBLEM	:	GIVEN A SET OF POINTS FIND COVEX HULL
+*/
+#include<cstdio>
+using namespace std;
+#include<queue>
+typedef struct Point{
+	int x,y;
+}Point;
+int orientation(Point p1,Point p2,Point p3){
+	int res=(p2.y-p1.y)*(p3.x-p2.x)-(p3.y-p2.y)*(p2.x-p1.x);
+	if(res==0)		//linear
+		return 0;
+	if(res<0)		//counter clockwise
+		return 2;
+	return 1;		//clockwise
+}
+void printConvexHull(Point p[],int n){
+	int l=0,i;
+	queue<Point> q;
+	//first find the left most point
+	for(i=0;i<n;i++){
+		if(p[i].x<p[l].x)
+			l=i;
+	}
+	int a,b,c;
+	a=l;
+	do{
+		printf("\na=%d",a);
+		q.push(p[a]);
+		c=(a+1)%n;
+		for(i=0;i<n;i++){
+			if(orientation(p[a],p[i],p[c])==2)
+				c=i;
+		}
+		a=c;
+	}while(a!=l);
+	Point p1;
+	printf("\nPoints in convex hull are:");
+	while(!q.empty()){
+		p1=q.front();
+		q.pop();
+		printf("(%d,%d)\t",p1.x,p1.y);
+	}
+}
+int main(){
+	Point p[]={{0,3},{2,2},{1,1},{2,1},{3,0},{0,0},{3,3}};
+	int n=sizeof(p)/sizeof(p[0]);
+	printConvexHull(p,n);
+	printf("\n");
+	return 0;
+}

@@ -1,0 +1,73 @@
+/*
+	AUTHOR : VISHAL KUMAR GOURAV
+	PROBLEM: SPLIT A CIRCULAR LINKED LIST IN TWO HALVES
+*/
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+typedef struct node{
+	int data;
+	struct node *next;
+}node;
+node *createNewNode(int data){
+	node *n;
+	n=(node*)malloc(sizeof(node));
+	n->data=data;
+	n->next=NULL;
+	return n;
+}
+void printCircular(node *head){
+	node *curr=head;
+	while(curr->next!=head){
+		printf("%d->",curr->data);
+		curr=curr->next;
+	}
+	printf("%d->NULL",curr->data);
+}
+void splitInTwo(node *head,node **head1,node **head2){
+	if(NULL==head){
+		*head1=*head2=NULL;
+		return;
+	}
+	node *mid,*fast,*temp;
+	fast=mid=head;
+	while(fast && fast->next!=head && fast->next && fast->next->next!=head){
+		fast=fast->next->next;
+		mid=mid->next;
+	}
+	//printf("\nmid=%d and fast=%d",mid->data,fast->data);
+	//two cases i)odd nodes
+	if(fast->next==head){
+		//do nothing
+	}else{//case ii)even nodes
+		fast=fast->next;
+	}
+	temp=mid->next;
+	mid->next=head;
+	*head1=head;
+	fast->next=temp;
+	*head2=temp;
+}
+int main(){
+	node *head;
+	int n;
+	head=NULL;
+	head=createNewNode(11);
+	head->next=createNewNode(12);
+	head->next->next=createNewNode(13);
+	head->next->next->next=createNewNode(14);
+	head->next->next->next->next=createNewNode(15);
+	head->next->next->next->next->next=createNewNode(16);
+	head->next->next->next->next->next->next=head;
+	printf("\nLinked list is:");
+	printCircular(head);
+	node *head1,*head2;
+	head1=head2=NULL;
+	splitInTwo(head,&head1,&head2);
+	printf("\nLinked list 1 is:");
+	printCircular(head1);
+	printf("\nLinked list 2 is:");
+	printCircular(head2);
+	printf("\n");
+	return 0;
+}

@@ -1,0 +1,98 @@
+/*
+	AUTHOR	:	VISHAL KUMAR GOURAV
+	PROBLEM	:	FIND MAXIMUM SUM ROOT TO LEAF PATH IN GIVEN BINARY TREE
+*/
+#include<stdio.h>
+#include<stdlib.h>
+#include<limits.h>
+#include<string.h>
+#include<stdbool.h>
+typedef struct node{
+	int data;
+	struct node *left,*right,*next;
+}node;
+node *createNode(int data){
+	node *temp;
+	temp=(node*)malloc(sizeof(node));
+	temp->data=data;
+	temp->left=temp->right=temp->next=NULL;
+	return temp;
+}
+node *insert(node *root,int data){
+	if(NULL==root)
+		return createNode(data);
+	if(data<=root->data)
+		root->left=insert(root->left,data);
+	else
+		root->right=insert(root->right,data);
+	return root;
+}
+void inorder(node *root){
+	if(NULL==root)
+		return;
+	inorder(root->left);
+	printf("%d ",root->data);
+	inorder(root->right);
+}
+void preorder(node *root){
+	if(NULL==root)
+		return;
+	printf("%d ",root->data);
+	preorder(root->left);
+	preorder(root->right);
+}
+void postorder(node *root){
+	if(root){
+		postorder(root->left);
+		postorder(root->right);
+		printf("%d ",root->data);
+	}
+}
+void findMaximumLeaf(node *root,node **leaf,int sum,int *max){
+	if(NULL==root)
+		return;
+	sum+=root->data;
+	if(root->left==NULL && root->right==NULL){
+		if(sum>(*max)){
+			*max=sum;
+			*leaf=root;
+		}
+		return;
+	}
+	findMaximumLeaf(root->left,leaf,sum,max);
+	findMaximumLeaf(root->right,leaf,sum,max);
+}
+bool printPath(node *root,node *leaf){
+	if(NULL==root)
+		return false;
+	if(root==leaf){
+		printf("%d ",root->data);
+		return true;
+	}
+	if(printPath(root->left,leaf)||printPath(root->right,leaf)){
+		printf("%d ",root->data);
+		return true;
+	}
+	return false;
+}
+void maximumPath(node *root){
+	node *leaf=NULL;
+	int max=INT_MIN;
+	findMaximumLeaf(root,&leaf,0,&max);
+	printPath(root,leaf);
+}
+int main(){
+	node *root1=NULL;
+	root1=createNode(10);
+	root1->left=createNode(-2);
+	root1->right=createNode(7);
+	root1->left->left=createNode(8);
+	root1->left->right=createNode(-4);
+	printf("\nInorder traversal of the tree is:");
+	inorder(root1);
+	int h=0;
+	printf("\nMaximum sum path is:");
+	maximumPath(root1);
+	printf("\n");
+	return 0;
+}

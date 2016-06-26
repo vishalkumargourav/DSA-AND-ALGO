@@ -1,0 +1,151 @@
+/*
+	AUTHOR	:	VISHAL KUMAR GOURAV
+	PROBLEM	:	CONSTRUCT A GRAPH FROM GIVEN BINARY TREE
+*/
+#include<iostream>
+using namespace std;
+#include<cstdio>
+#include<cstdlib>
+#include<stack>
+typedef struct graph_node{
+	int dest;
+	struct graph_node *next;
+}graph_node;
+typedef struct list{
+	graph_node *head;
+}list;
+typedef struct graph{
+	int v;
+	list *arr;
+}graph;
+graph *createGraph(int v){
+	graph *g;
+	g=(graph*)malloc(sizeof(graph));
+	g->v=v;
+	g->arr=(list*)malloc(sizeof(list)*v);
+	int i;
+	for(i=0;i<v;i++)
+		g->arr[i].head=NULL;
+	return g;
+}
+graph_node *createGraphNode(int dest){
+	graph_node *temp;
+	temp=(graph_node*)malloc(sizeof(graph_node));
+	temp->dest=dest;
+	temp->next=NULL;
+	return temp;
+}
+void addEdge(graph *g,int src,int dest){
+	graph_node *temp;
+	temp=createGraphNode(dest);
+	temp->next=g->arr[src].head;
+	g->arr[src].head=temp;
+	temp=createGraphNode(src);
+	temp->next=g->arr[dest].head;
+	g->arr[dest].head=temp;
+}
+typedef struct node{
+	int data;
+	struct node *left,*right;
+}node;
+node *createNode(int data){
+	node *temp;
+	temp=(node*)malloc(sizeof(node));
+	temp->data=data;
+	temp->left=temp->right=NULL;
+	return temp;
+}
+void inorder(node *root){
+	if(NULL==root)
+		return;
+	inorder(root->left);
+	printf("%d ",root->data);
+	inorder(root->right);
+}
+void preorder(node *root){
+	if(NULL==root)
+		return;
+	printf("%d ",root->data);
+	preorder(root->left);
+	preorder(root->right);
+}
+void postorder(node *root){
+	if(root){
+		postorder(root->left);
+		postorder(root->right);
+		printf("%d ",root->data);
+	}
+}
+int countNodes(node *root){
+	if(NULL==root)
+		return 0;
+	return countNodes(root->left)+countNodes(root->right)+1;
+}
+void insertNodes(graph *g,node *root){
+	if(NULL==root)
+		return;
+	if(root->left)
+		addEdge(g,root->left->data,root->data);
+	if(root->right)
+		addEdge(g,root->right->data,root->data);
+	insertNodes(g,root->left);
+	insertNodes(g,root->right);
+}
+graph *createGraphFromBT(node *root){
+	if(NULL==root)
+		return NULL;
+	int n=countNodes(root);
+	graph *g=createGraph(n);
+	insertNodes(g,root);
+	return g;
+}
+void printGraph(graph *g){
+	int i;
+	graph_node *temp;
+	for(i=0;i<g->v;i++){
+		temp=g->arr[i].head;
+		printf("[%d]->",i+1);
+		while(temp){
+			printf("(%d)->",temp->dest+1);
+			temp=temp->next;
+		}
+		printf("NULL\n");
+	}
+}
+typedef struct node_data{
+	graph_node *data;
+	int dist;
+}node_data;
+void printNodes(int data,int k,graph *g){
+	if(k==0){
+		printf("%d ",data);
+		return;
+	}
+	stack<node_data *> s;
+	node_data *temp;
+	temp=(node_data*)malloc(sizeof(node_data));
+	temp->data=g->arr[data].head;
+	while(temp){
+		
+	}
+}
+int main(){
+	node *root1=NULL;
+	root1=createNode(0);
+	root1->left=createNode(1);
+	root1->right=createNode(2);
+	root1->left->left=createNode(3);
+	root1->left->right=createNode(4);
+	root1->left->right->left=createNode(5);
+	root1->left->right->right=createNode(6);
+	root1->right->right=createNode(7);
+	root1->right->right->right=createNode(8);
+	graph *g=createGraphFromBT(root1);
+	printf("\nGraph is....\n");
+	printGraph(g);
+	int data=5;
+	int dist=3;
+	printNodes(data,dist,g);
+	printf("\n");
+	return 0;
+}

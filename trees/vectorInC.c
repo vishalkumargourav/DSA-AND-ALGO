@@ -1,0 +1,14 @@
+#include<cstdio>
+using namespace std;
+#include<vector>
+int main(){
+	vector<int> v;
+	int i;
+	for(i=0;i<10;i++)
+		v.push_back(i);
+	printf("\nVector contains:");
+	for(i=0;i<v.size();i++)
+		printf("%d ",v[i]);
+	printf("\n");
+	return 0;
+}

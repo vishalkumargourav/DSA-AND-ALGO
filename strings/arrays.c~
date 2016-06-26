@@ -1,0 +1,22 @@
+#include<string.h>
+#include<stdio.h>
+int main(){
+	char str[][5][10]={{"you","we","us","this","that"},{"are","am","is"},{"good","nice","dumb","stupid"}};
+	int outermost=sizeof(str)/sizeof(str[0]);
+	int iter2=sizeof(str[0])/sizeof(str[0][0]);
+	printf("\niter2=%d",iter2);
+	printf("\nOutermost=%d",outermost);
+	int i,j,count;
+	for(i=0;i<outermost;i++){
+		printf("\nItem=%d",i);
+		count=0;
+		for(j=0;j<iter2;j++){
+			if(strlen(str[i][j])>0){
+				count++;
+			}
+		}
+		printf("-->subitems=%d",count);
+	}
+	printf("\n");
+	return 0;
+}

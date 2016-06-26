@@ -1,0 +1,25 @@
+/*
+	AUTHOR	:	VISHAL KUMAR GOURAV
+	PROBLEM	:	FIND LARGEST SUBARRAY WITH EQUAL 0 AND 1 FROM BINARY ARRAY
+*/
+#include<stdio.h>
+#include<stdlib.h>
+int findLargest(int *a,int n){
+	int *left=(int*)malloc(sizeof(int)*n);
+	int i;
+	int res=-1;
+	left[0]=a[0];
+	for(i=1;i<n;i++){
+		left[i]=left[i-1]+a[i];
+		if(left[i]==0)
+			res=i+1;
+	}
+	
+}
+int main(){
+	int a[]={};
+	int n=sizeof(a)/sizeof(a[0]);
+	int res=findLargest(a,n);
+	printf("\n");
+	return 0;
+}

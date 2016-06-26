@@ -1,0 +1,45 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct graph_node{
+	int dest;
+	struct graph_node *next;
+}graph_node;
+typedef struct list{
+	graph_node *head;
+}list;
+typedef struct graph{
+	int v;
+	list *arr;
+}graph;
+graph *createGraph(int v){
+	graph *g;
+	g=(graph*)malloc(sizeof(graph));
+	g->v=v;
+	g->arr=(list*)malloc(sizeof(list)*v);
+	int i;
+	for(i=0;i<v;i++)
+		g->arr[i].head=NULL;
+	return g;
+}
+graph_node *createGraphNode(int dest){
+	graph_node *temp;
+	temp=(graph_node*)malloc(sizeof(graph_node));
+	temp->dest=dest;
+	temp->next=NULL;
+	return temp;
+}
+void addEdge(graph *g,int src,int dest){
+	graph_node *temp;
+	temp=createGraphNode(dest);
+	temp->next=g->arr[src].head;
+	g->arr[src].head=temp;
+	
+}
+int main(void){
+	int v=5;
+	graph *g=createGraph(v);
+	if(NULL!=g)
+		printf("\nGraph created successfully");
+	printf("\n");
+	return 0;
+}

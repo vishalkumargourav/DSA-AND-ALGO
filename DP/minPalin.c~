@@ -1,0 +1,52 @@
+/*
+	AUTHOR	:	VISHAL KUMAR GOURAV
+	PROBLEM	:	MINIMUM PALINDROME PARTITIONING
+*/
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<stdbool.h>
+#include<limits.h>
+bool isPalin(char *str,int i,int j){
+	if(i>=j)
+		return true;
+	return (str[i]==str[j]) && isPalin(str,i+1,j-1);
+}
+int min(int a,int b){
+	return a<b?a:b;
+}
+int findMin(char *str,int n){
+	int **mat=(int**)malloc(sizeof(int*)*n);
+	int i,l,j,k;
+	for(i=0;i<n;i++)
+		mat[i]=(int*)malloc(sizeof(int)*n);
+	for(i=0;i<n;i++)		//FOR LENGTH ONE SUBSTRING
+		mat[i][i]=0;
+	for(l=2;l<=n;l++){
+		for(i=0;i<n-l+1;i++){
+			j=i+l-1;
+			if(!isPalin(str,i,j)){
+				mat[i][j]=INT_MAX;
+				for(k=i;k<j;k++)
+					mat[i][j]=min(mat[i][j],mat[i][k]+mat[k+1][j]+1);
+			}else
+				mat[i][j]=0;
+		}
+	}
+	return mat[0][n-1];
+}
+int main(){
+	//char *str="ababbbabbababa";
+	char *str="aba b bbabb a b aba";
+	int n=strlen(str);
+	printf("\nMinumum palindrome partitioning is:%d",findMin(str,n));
+	printf("\n");
+	return 0;
+}
+
+
+
+
+
+
+

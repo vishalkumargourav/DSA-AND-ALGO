@@ -1,0 +1,27 @@
+/*
+	AUTHOR	:	VISHAL KUMAR GOURAV
+	PROBLEM	:	REPLACE EVERY SPACE IN STRING BY %20
+*/
+#include<stdio.h>
+#include<stdlib.h>
+void replace(char *str,int n){
+	int i,j;
+	j=0;
+	for(i=0;i<n;i++){
+		if(str[i]==' '){
+			str[j]='%';
+			str[j+1]='%';
+			str[j+2]='2';
+			str[j+3]='0';
+		}else
+			str[j++]=str[i];
+			
+	}
+}
+int main(){
+	char str[]="this is geeks for geeks";
+	printf("%%20");
+	replace(str,strlen(str));
+	printf("\n");
+	return 0;
+}

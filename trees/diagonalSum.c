@@ -1,0 +1,92 @@
+/*
+	AUTHOR	:	VISHAL KUMAR GOURAV
+	PROBLEM	:	GIVEN A BINARY TREE FIND DIAGONAL SUM OF ALL DIAGONALS
+*/
+using namespace std;
+#include<cstdio>
+#include<queue>
+#include<cstdlib>
+typedef struct node{
+	int data;
+	struct node *left,*right;
+}node;
+node *createNode(int data){
+	node *temp;
+	temp=(node*)malloc(sizeof(node));
+	temp->data=data;
+	temp->left=temp->right=NULL;
+	return temp;
+}
+node *insert(node *root,int data){
+	if(NULL==root)
+		return createNode(data);
+	if(data<=root->data)
+		root->left=insert(root->left,data);
+	else
+		root->right=insert(root->right,data);
+	return root;
+}
+void inorder(node *root){
+	if(NULL==root)
+		return;
+	inorder(root->left);
+	printf("%d ",root->data);
+	inorder(root->right);
+}
+void preorder(node *root){
+	if(NULL==root)
+		return;
+	printf("%d ",root->data);
+	preorder(root->left);
+	preorder(root->right);
+}
+void diagonalSum(node *root){
+	if(NULL==root)
+		return;
+	queue<node *> q;
+	node *MARKER=createNode(-1);
+	while(root){
+		q.push(root);
+		root=root->right;
+	}
+	int sum;
+	node *temp,*temp1;
+	q.push(MARKER);
+	while(!q.empty()){
+		temp=q.front();
+		q.pop();
+		sum=0;
+		while(temp!=MARKER){
+			sum+=temp->data;
+			if(temp->left){
+				temp1=temp->left;
+				while(temp1){
+					q.push(temp1);
+					temp1=temp1->right;
+				}
+			}
+			temp=q.front();
+			q.pop();
+		}
+		printf("\nsum=%d",sum);
+		if(!q.empty())
+			q.push(MARKER);
+	}
+}
+int main(){
+	node *root1=NULL,*root2=NULL;
+	root1=createNode(1);
+	root1->left=createNode(2);
+	root1->right=createNode(3);
+	root1->left->left=createNode(9);
+	root1->left->right=createNode(6);
+	root1->right->left=createNode(4);
+	root1->right->right=createNode(5);
+	root1->left->left->right=createNode(10);
+	root1->left->right->left=createNode(11);
+	root1->right->left->left=createNode(12);
+	root1->right->left->right=createNode(7);
+	diagonalSum(root1);
+	printf("\n");
+	return 0;
+}
