@@ -36,6 +36,6 @@ int findCeleb(){
 	return -1;
 }
 int main(){
-	printf("\nId of celebrity is:%d",findCeleb());
+	printf("\nId of celebrity is: %d",findCeleb());
 	return 0;
 }
